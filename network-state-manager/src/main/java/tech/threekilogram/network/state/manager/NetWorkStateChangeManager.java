@@ -1,5 +1,7 @@
 package tech.threekilogram.network.state.manager;
 
+import static tech.threekilogram.network.state.manager.NetWorkStateValue.RECEIVER_UNREGISTER;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -37,7 +39,7 @@ public class NetWorkStateChangeManager implements OnNetWorkStateChangedListener 
       }
 
       @NetWorkStateValue
-      private int mCurrentNetState = OnNetWorkStateChangedListener.RECEIVER_UNREGISTER;
+      private int mCurrentNetState = RECEIVER_UNREGISTER;
 
       private ArrayList<OnNetWorkStateChangedListener> mListeners          = new ArrayList<>();
       private StateChangeHandler                       mStateChangeHandler = new StateChangeHandler();

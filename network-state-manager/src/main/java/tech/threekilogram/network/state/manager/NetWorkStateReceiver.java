@@ -1,9 +1,9 @@
 package tech.threekilogram.network.state.manager;
 
-import static tech.threekilogram.network.state.manager.OnNetWorkStateChangedListener.ONLY_MOBILE_CONNECT;
-import static tech.threekilogram.network.state.manager.OnNetWorkStateChangedListener.ONLY_WIFI_CONNECT;
-import static tech.threekilogram.network.state.manager.OnNetWorkStateChangedListener.WIFI_MOBILE_CONNECT;
-import static tech.threekilogram.network.state.manager.OnNetWorkStateChangedListener.WIFI_MOBILE_DISCONNECT;
+import static tech.threekilogram.network.state.manager.NetWorkStateValue.ONLY_MOBILE_CONNECT;
+import static tech.threekilogram.network.state.manager.NetWorkStateValue.ONLY_WIFI_CONNECT;
+import static tech.threekilogram.network.state.manager.NetWorkStateValue.WIFI_MOBILE_CONNECT;
+import static tech.threekilogram.network.state.manager.NetWorkStateValue.WIFI_MOBILE_DISCONNECT;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -56,11 +56,16 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
        *
        * @param context context
        */
+      @SuppressWarnings("AliDeprecation")
       private void getNetWorkState (Context context) {
 
             //获得ConnectivityManager对象
             ConnectivityManager connMgr =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if(connMgr == null) {
+                  return;
+            }
 
             //获取ConnectivityManager对象对应的NetworkInfo对象
             //获取WIFI连接的信息
@@ -121,10 +126,10 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
             boolean dataNetworkConnect = false;
 
             //通过循环将网络信息逐个取出来
-            for(int i = 0; i < networks.length; i++) {
+            for(Network network : networks) {
 
                   //获取ConnectivityManager对象对应的NetworkInfo对象
-                  NetworkInfo networkInfo = connMgr.getNetworkInfo(networks[i]);
+                  NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
                   int type = networkInfo.getType();
 
                   if(type == ConnectivityManager.TYPE_WIFI && networkInfo.isConnected()) {
