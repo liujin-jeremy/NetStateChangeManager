@@ -20,7 +20,7 @@
                   </intent-filter>
             </activity>
 
-            <receiver android:name="tech.threekilogram.network.state.manager.NetWorkStateReceiver">
+            <receiver android:name="tech.threekilogram.network.state.manager.NetStateReceiver">
             </receiver>
 
             <activity android:name=".Main2Activity">

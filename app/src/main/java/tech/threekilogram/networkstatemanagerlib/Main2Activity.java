@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import tech.threekilogram.network.state.manager.NetWorkStateChangeManager;
+import tech.threekilogram.network.state.manager.NetStateChangeManager;
 
 /**
  * @author liujin
@@ -27,6 +27,6 @@ public class Main2Activity extends AppCompatActivity {
 
       public void unRegister (View view) {
 
-            NetWorkStateChangeManager.unRegisterReceiver(this);
+            NetStateChangeManager.unRegisterReceiver(this);
       }
 }

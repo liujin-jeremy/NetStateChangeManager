@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import tech.threekilogram.network.state.manager.NetWorkStateChangeManager;
-import tech.threekilogram.network.state.manager.NetWorkStateUtils;
-import tech.threekilogram.network.state.manager.OnNetWorkStateChangedListener;
+import tech.threekilogram.network.state.manager.NetStateChangeManager;
+import tech.threekilogram.network.state.manager.NetStateUtils;
+import tech.threekilogram.network.state.manager.OnNetStateChangedListener;
 
 /**
  * @author liujin
  */
-public class MainActivity extends AppCompatActivity implements OnNetWorkStateChangedListener {
+public class MainActivity extends AppCompatActivity implements OnNetStateChangedListener {
 
       private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -36,33 +36,33 @@ public class MainActivity extends AppCompatActivity implements OnNetWorkStateCha
 
       public void getCurrentState (View view) {
 
-            NetWorkStateChangeManager instance = NetWorkStateChangeManager.getInstance();
+            NetStateChangeManager instance = NetStateChangeManager.getInstance();
             int currentNetState = instance.getCurrentNetState();
             Log.e(TAG, "getCurrentState : " + currentNetState);
       }
 
       public void isConnect (View view) {
 
-            boolean networkConnected = NetWorkStateUtils.isNetworkConnected(this);
+            boolean networkConnected = NetStateUtils.isNetworkConnected(this);
             Log.e(TAG, "isConnect : network " + networkConnected);
 
-            boolean wifiConnected = NetWorkStateUtils.isWifiConnected(this);
+            boolean wifiConnected = NetStateUtils.isWifiConnected(this);
             Log.e(TAG, "isConnect : wifi " + wifiConnected);
 
-            boolean mobileConnected = NetWorkStateUtils.isMobileConnected(this);
+            boolean mobileConnected = NetStateUtils.isMobileConnected(this);
             Log.e(TAG, "isConnect : mobile " + mobileConnected);
       }
 
       public void register (View view) {
 
-            NetWorkStateChangeManager.registerReceiver(this);
-            NetWorkStateChangeManager.getInstance().addListener(this);
+            NetStateChangeManager.registerReceiver(this);
+            NetStateChangeManager.getInstance().addListener(this);
       }
 
       public void unRegister (View view) {
 
-            NetWorkStateChangeManager.unRegisterReceiver(this);
-            NetWorkStateChangeManager.getInstance().removeListener(this);
+            NetStateChangeManager.unRegisterReceiver(this);
+            NetStateChangeManager.getInstance().removeListener(this);
       }
 
       public void toMain2 (View view) {

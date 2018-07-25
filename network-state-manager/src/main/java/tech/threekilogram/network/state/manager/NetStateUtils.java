@@ -13,7 +13,7 @@ import android.support.annotation.RequiresApi;
  * @date: 2018-07-23
  * @time: 18:21
  */
-public class NetWorkStateUtils {
+public class NetStateUtils {
 
       /**
        * 判断是否有网络连接

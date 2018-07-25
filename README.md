@@ -28,7 +28,7 @@ Add it in your root build.gradle at the end of repositories:
 1. 注册一个监听网络变化的BroadCastReceiver
 
 ```
-<receiver android:name="tech.threekilogram.network.state.manager.NetWorkStateReceiver">
+<receiver android:name="tech.threekilogram.network.state.manager.NetStateReceiver">
 </receiver>
 ```
 

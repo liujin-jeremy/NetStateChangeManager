@@ -8,12 +8,12 @@ package tech.threekilogram.network.state.manager;
  * @date: 2018-07-23
  * @time: 18:45
  */
-public interface OnNetWorkStateChangedListener {
+public interface OnNetStateChangedListener {
 
       /**
        * wifi 连接状态改变的回调
        *
-       * @param state one of {@link NetWorkStateValue}
+       * @param state one of {@link NetStateValue}
        */
-      void onNetWorkStateChanged (@NetWorkStateValue int state);
+      void onNetWorkStateChanged (@NetStateValue int state);
 }

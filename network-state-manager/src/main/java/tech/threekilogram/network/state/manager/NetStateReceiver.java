@@ -1,9 +1,9 @@
 package tech.threekilogram.network.state.manager;
 
-import static tech.threekilogram.network.state.manager.NetWorkStateValue.ONLY_MOBILE_CONNECT;
-import static tech.threekilogram.network.state.manager.NetWorkStateValue.ONLY_WIFI_CONNECT;
-import static tech.threekilogram.network.state.manager.NetWorkStateValue.WIFI_MOBILE_CONNECT;
-import static tech.threekilogram.network.state.manager.NetWorkStateValue.WIFI_MOBILE_DISCONNECT;
+import static tech.threekilogram.network.state.manager.NetStateValue.ONLY_MOBILE_CONNECT;
+import static tech.threekilogram.network.state.manager.NetStateValue.ONLY_WIFI_CONNECT;
+import static tech.threekilogram.network.state.manager.NetStateValue.WIFI_MOBILE_CONNECT;
+import static tech.threekilogram.network.state.manager.NetStateValue.WIFI_MOBILE_DISCONNECT;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,19 +23,19 @@ import android.support.annotation.RequiresApi;
  * @time: 18:04
  */
 
-public class NetWorkStateReceiver extends BroadcastReceiver {
+public class NetStateReceiver extends BroadcastReceiver {
 
-      private NetWorkStateChangeManager mNetWorkStateChangeManager;
+      private NetStateChangeManager mNetStateChangeManager;
 
-      void setNetWorkStateChangeManager (
-          NetWorkStateChangeManager netWorkStateChangeManager) {
+      public NetStateChangeManager getNetStateChangeManager () {
 
-            mNetWorkStateChangeManager = netWorkStateChangeManager;
+            return mNetStateChangeManager;
       }
 
-      public NetWorkStateChangeManager getNetWorkStateChangeManager () {
+      void setNetStateChangeManager (
+          NetStateChangeManager netStateChangeManager) {
 
-            return mNetWorkStateChangeManager;
+            mNetStateChangeManager = netStateChangeManager;
       }
 
       @Override
@@ -78,25 +78,25 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
 
             if(wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected()) {
 
-                  if(mNetWorkStateChangeManager != null) {
-                        mNetWorkStateChangeManager.onNetWorkStateChanged(
+                  if(mNetStateChangeManager != null) {
+                        mNetStateChangeManager.onNetWorkStateChanged(
                             WIFI_MOBILE_CONNECT);
                   }
             } else if(wifiNetworkInfo.isConnected() && !dataNetworkInfo.isConnected()) {
 
-                  if(mNetWorkStateChangeManager != null) {
-                        mNetWorkStateChangeManager
+                  if(mNetStateChangeManager != null) {
+                        mNetStateChangeManager
                             .onNetWorkStateChanged(ONLY_WIFI_CONNECT);
                   }
             } else if(!wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected()) {
 
-                  if(mNetWorkStateChangeManager != null) {
-                        mNetWorkStateChangeManager.onNetWorkStateChanged(ONLY_MOBILE_CONNECT);
+                  if(mNetStateChangeManager != null) {
+                        mNetStateChangeManager.onNetWorkStateChanged(ONLY_MOBILE_CONNECT);
                   }
             } else {
 
-                  if(mNetWorkStateChangeManager != null) {
-                        mNetWorkStateChangeManager.onNetWorkStateChanged(WIFI_MOBILE_DISCONNECT);
+                  if(mNetStateChangeManager != null) {
+                        mNetStateChangeManager.onNetWorkStateChanged(WIFI_MOBILE_DISCONNECT);
                   }
             }
       }
@@ -146,25 +146,25 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
 
                   if(dataNetworkConnect) {
 
-                        if(mNetWorkStateChangeManager != null) {
-                              mNetWorkStateChangeManager.onNetWorkStateChanged(
+                        if(mNetStateChangeManager != null) {
+                              mNetStateChangeManager.onNetWorkStateChanged(
                                   WIFI_MOBILE_CONNECT);
                         }
                   } else {
-                        if(mNetWorkStateChangeManager != null) {
-                              mNetWorkStateChangeManager
+                        if(mNetStateChangeManager != null) {
+                              mNetStateChangeManager
                                   .onNetWorkStateChanged(ONLY_WIFI_CONNECT);
                         }
                   }
             } else {
                   if(dataNetworkConnect) {
 
-                        if(mNetWorkStateChangeManager != null) {
-                              mNetWorkStateChangeManager.onNetWorkStateChanged(ONLY_MOBILE_CONNECT);
+                        if(mNetStateChangeManager != null) {
+                              mNetStateChangeManager.onNetWorkStateChanged(ONLY_MOBILE_CONNECT);
                         }
                   } else {
-                        if(mNetWorkStateChangeManager != null) {
-                              mNetWorkStateChangeManager
+                        if(mNetStateChangeManager != null) {
+                              mNetStateChangeManager
                                   .onNetWorkStateChanged(WIFI_MOBILE_DISCONNECT);
                         }
                   }
