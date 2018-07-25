@@ -14,8 +14,8 @@
           android:layout_marginTop="8dp"
           android:layout_marginStart="8dp"
           android:layout_marginLeft="8dp"
-          android:text="current state"
           android:onClick="getCurrentState"
+          android:text="current state"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"/>
       <Button
@@ -25,10 +25,41 @@
           android:layout_marginTop="8dp"
           android:layout_marginStart="8dp"
           android:layout_marginLeft="8dp"
-          android:text="isConnected"
           android:onClick="isConnect"
+          android:text="isConnected"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/button"/>
+      <Button
+          android:id="@+id/button3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:onClick="register"
+          android:text="register"
+          app:layout_constraintStart_toEndOf="@+id/button"
+          app:layout_constraintTop_toTopOf="parent"/>
+      <Button
+          android:id="@+id/button4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:onClick="unRegister"
+          android:text="unRegister"
+          app:layout_constraintStart_toEndOf="@+id/button3"
+          app:layout_constraintTop_toTopOf="parent"/>
+      <Button
+          android:id="@+id/button6"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:onClick="toMain2"
+          android:text="toMain2"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/button2"/>
 
 
 </android.support.constraint.ConstraintLayout>

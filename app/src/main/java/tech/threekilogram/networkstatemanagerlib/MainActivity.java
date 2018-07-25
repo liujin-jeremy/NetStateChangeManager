@@ -20,18 +20,12 @@ public class MainActivity extends AppCompatActivity implements OnNetWorkStateCha
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-
-            NetWorkStateChangeManager.registerReceiver(this);
-            NetWorkStateChangeManager.getInstance().registerListener(this);
       }
 
       @Override
       protected void onDestroy () {
 
             super.onDestroy();
-
-            NetWorkStateChangeManager.unRegisterReceiver(this);
-            NetWorkStateChangeManager.getInstance().unregisterListener(this);
       }
 
       @Override
@@ -57,5 +51,22 @@ public class MainActivity extends AppCompatActivity implements OnNetWorkStateCha
 
             boolean mobileConnected = NetWorkStateUtils.isMobileConnected(this);
             Log.e(TAG, "isConnect : mobile " + mobileConnected);
+      }
+
+      public void register (View view) {
+
+            NetWorkStateChangeManager.registerReceiver(this);
+            NetWorkStateChangeManager.getInstance().addListener(this);
+      }
+
+      public void unRegister (View view) {
+
+            NetWorkStateChangeManager.unRegisterReceiver(this);
+            NetWorkStateChangeManager.getInstance().removeListener(this);
+      }
+
+      public void toMain2 (View view) {
+
+            Main2Activity.start(this);
       }
 }
