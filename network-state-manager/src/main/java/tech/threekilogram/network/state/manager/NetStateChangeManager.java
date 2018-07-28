@@ -135,6 +135,12 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
 
             if(listener != null) {
                   for(WeakReference<OnNetStateChangedListener> reference : mListeners) {
+
+                        if(reference.get() == null) {
+                              mListeners.remove(reference);
+                              continue;
+                        }
+
                         if(reference.get() == listener) {
                               return;
                         }
@@ -149,6 +155,12 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
 
             if(listener != null) {
                   for(WeakReference<OnNetStateChangedListener> reference : mListeners) {
+
+                        if(reference.get() == null) {
+                              mListeners.remove(reference);
+                              continue;
+                        }
+
                         if(reference.get() == listener) {
                               mListeners.remove(reference);
                               return;
@@ -160,6 +172,12 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
       void notifySateChanged (@NetStateValue int state) {
 
             for(WeakReference<OnNetStateChangedListener> reference : mListeners) {
+
+                  if(reference.get() == null) {
+                        mListeners.remove(reference);
+                        continue;
+                  }
+
                   reference.get().onNetWorkStateChanged(state);
             }
       }
