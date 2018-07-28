@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Message;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -24,9 +25,9 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
 
       // ========================= singleTon =========================
       @NetStateValue
-      private int                                  mCurrentNetState    = RECEIVER_UNREGISTER;
-      private ArrayList<OnNetStateChangedListener> mListeners          = new ArrayList<>();
-      private StateChangeHandler                   mStateChangeHandler = new StateChangeHandler();
+      private int                                                 mCurrentNetState    = RECEIVER_UNREGISTER;
+      private ArrayList<WeakReference<OnNetStateChangedListener>> mListeners          = new ArrayList<>();
+      private StateChangeHandler                                  mStateChangeHandler = new StateChangeHandler();
       private NetStateReceiver mNetStateReceiver;
 
       private NetStateChangeManager () {
@@ -133,10 +134,12 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
       public void addListener (OnNetStateChangedListener listener) {
 
             if(listener != null) {
-                  if(mListeners.contains(listener)) {
-                        return;
+                  for(WeakReference<OnNetStateChangedListener> reference : mListeners) {
+                        if(reference.get() == listener) {
+                              return;
+                        }
                   }
-                  mListeners.add(listener);
+                  mListeners.add(new WeakReference<OnNetStateChangedListener>(listener));
             }
       }
 
@@ -145,14 +148,19 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
       public void removeListener (OnNetStateChangedListener listener) {
 
             if(listener != null) {
-                  mListeners.remove(listener);
+                  for(WeakReference<OnNetStateChangedListener> reference : mListeners) {
+                        if(reference.get() == listener) {
+                              mListeners.remove(reference);
+                              return;
+                        }
+                  }
             }
       }
 
       void notifySateChanged (@NetStateValue int state) {
 
-            for(OnNetStateChangedListener listener : mListeners) {
-                  listener.onNetWorkStateChanged(state);
+            for(WeakReference<OnNetStateChangedListener> reference : mListeners) {
+                  reference.get().onNetWorkStateChanged(state);
             }
       }
 
