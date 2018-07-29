@@ -146,6 +146,7 @@ public class NetStateChangeManager implements OnNetStateChangedListener {
                         }
                   }
                   mListeners.add(new WeakReference<OnNetStateChangedListener>(listener));
+                  listener.onNetWorkStateChanged(getCurrentNetState());
             }
       }
 
