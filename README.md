@@ -33,12 +33,12 @@ Add it in your root build.gradle at the end of repositories:
 ```
 
 ```
-// 推荐app创建时注册
-NetWorkStateChangeManager.registerReceiver(context);
+// 注册receiver
+NetStateChangeManager.registerReceiver(this);
 ```
 
 ```
-// 不要忘记app退出时解注册
+// 解注册receiver
 NetWorkStateChangeManager.unRegisterReceiver(context);
 ```
 

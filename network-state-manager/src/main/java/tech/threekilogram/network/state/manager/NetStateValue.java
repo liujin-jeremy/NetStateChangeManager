@@ -14,24 +14,41 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 网络状态值
+ *
  * @author: Liujin
  * @version: V1.0
  * @date: 2018-07-25
  * @time: 9:53
  */
-@IntDef(value = {WIFI_MOBILE_DISCONNECT,
-                 ONLY_WIFI_CONNECT,
-                 ONLY_MOBILE_CONNECT,
-                 WIFI_MOBILE_CONNECT,
-                 RECEIVER_UNREGISTER})
+@IntDef(value = { WIFI_MOBILE_DISCONNECT,
+                  ONLY_WIFI_CONNECT,
+                  ONLY_MOBILE_CONNECT,
+                  WIFI_MOBILE_CONNECT,
+                  RECEIVER_UNREGISTER })
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
+@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 public @interface NetStateValue {
 
+      /**
+       * {@link NetStateChangeManager}没有注册
+       */
       final int RECEIVER_UNREGISTER    = -1;
+      /**
+       * wifi mobile 都没有连接
+       */
       final int WIFI_MOBILE_DISCONNECT = 0;
+      /**
+       * 只有mobile连接
+       */
       final int ONLY_MOBILE_CONNECT    = 1;
+      /**
+       * 只有wifi连接
+       */
       final int ONLY_WIFI_CONNECT      = 2;
+      /**
+       * wifi mobile都连接了
+       */
       final int WIFI_MOBILE_CONNECT    = 3;
 }

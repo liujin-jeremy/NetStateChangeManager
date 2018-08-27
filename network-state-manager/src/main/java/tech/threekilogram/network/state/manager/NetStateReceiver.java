@@ -25,29 +25,27 @@ import android.support.annotation.RequiresApi;
 
 public class NetStateReceiver extends BroadcastReceiver {
 
+      /**
+       * 和管理者关联
+       */
       private NetStateChangeManager mNetStateChangeManager;
 
-      public NetStateChangeManager getNetStateChangeManager () {
-
-            return mNetStateChangeManager;
-      }
-
       void setNetStateChangeManager (
-          NetStateChangeManager netStateChangeManager) {
+          NetStateChangeManager netStateChangeManager ) {
 
             mNetStateChangeManager = netStateChangeManager;
       }
 
       @Override
-      public void onReceive (Context context, Intent intent) {
+      public void onReceive ( Context context, Intent intent ) {
 
             //检测API是不是小于23，因为到了API23之后getNetworkInfo(int networkType)方法被弃用
-            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP ) {
 
-                  getNetWorkState(context);
+                  getNetWorkState( context );
             } else {
 
-                  getNetWorkStateApi23(context);
+                  getNetWorkStateApi23( context );
             }
       }
 
@@ -57,46 +55,44 @@ public class NetStateReceiver extends BroadcastReceiver {
        * @param context context
        */
       @SuppressWarnings("AliDeprecation")
-      private void getNetWorkState (Context context) {
+      private void getNetWorkState ( Context context ) {
 
             //获得ConnectivityManager对象
             ConnectivityManager connMgr =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
 
-            if(connMgr == null) {
+            if( connMgr == null ) {
                   return;
             }
 
             //获取ConnectivityManager对象对应的NetworkInfo对象
             //获取WIFI连接的信息
             NetworkInfo wifiNetworkInfo =
-                connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                connMgr.getNetworkInfo( ConnectivityManager.TYPE_WIFI );
 
             //获取移动数据连接的信息
             NetworkInfo dataNetworkInfo =
-                connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                connMgr.getNetworkInfo( ConnectivityManager.TYPE_MOBILE );
 
-            if(wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected()) {
+            if( wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected() ) {
 
-                  if(mNetStateChangeManager != null) {
-                        mNetStateChangeManager.onNetWorkStateChanged(
-                            WIFI_MOBILE_CONNECT);
+                  if( mNetStateChangeManager != null ) {
+                        mNetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_CONNECT );
                   }
-            } else if(wifiNetworkInfo.isConnected() && !dataNetworkInfo.isConnected()) {
+            } else if( wifiNetworkInfo.isConnected() && !dataNetworkInfo.isConnected() ) {
 
-                  if(mNetStateChangeManager != null) {
-                        mNetStateChangeManager
-                            .onNetWorkStateChanged(ONLY_WIFI_CONNECT);
+                  if( mNetStateChangeManager != null ) {
+                        mNetStateChangeManager.onNetWorkStateChanged( ONLY_WIFI_CONNECT );
                   }
-            } else if(!wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected()) {
+            } else if( !wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected() ) {
 
-                  if(mNetStateChangeManager != null) {
-                        mNetStateChangeManager.onNetWorkStateChanged(ONLY_MOBILE_CONNECT);
+                  if( mNetStateChangeManager != null ) {
+                        mNetStateChangeManager.onNetWorkStateChanged( ONLY_MOBILE_CONNECT );
                   }
             } else {
 
-                  if(mNetStateChangeManager != null) {
-                        mNetStateChangeManager.onNetWorkStateChanged(WIFI_MOBILE_DISCONNECT);
+                  if( mNetStateChangeManager != null ) {
+                        mNetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_DISCONNECT );
                   }
             }
       }
@@ -107,15 +103,15 @@ public class NetStateReceiver extends BroadcastReceiver {
        * @param context context
        */
       @RequiresApi(api = VERSION_CODES.LOLLIPOP)
-      private void getNetWorkStateApi23 (Context context) {
+      private void getNetWorkStateApi23 ( Context context ) {
 
             //API大于23时使用下面的方式进行网络监听
 
             //获得ConnectivityManager对象
             ConnectivityManager connMgr =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
 
-            if(connMgr == null) {
+            if( connMgr == null ) {
                   return;
             }
 
@@ -126,46 +122,44 @@ public class NetStateReceiver extends BroadcastReceiver {
             boolean dataNetworkConnect = false;
 
             //通过循环将网络信息逐个取出来
-            for(Network network : networks) {
+            for( Network network : networks ) {
 
                   //获取ConnectivityManager对象对应的NetworkInfo对象
-                  NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
+                  NetworkInfo networkInfo = connMgr.getNetworkInfo( network );
                   int type = networkInfo.getType();
 
-                  if(type == ConnectivityManager.TYPE_WIFI && networkInfo.isConnected()) {
+                  if( type == ConnectivityManager.TYPE_WIFI && networkInfo.isConnected() ) {
 
                         wifiConnect = true;
-                  } else if(type == ConnectivityManager.TYPE_MOBILE &&
-                      networkInfo.isConnected()) {
+                  } else if( type == ConnectivityManager.TYPE_MOBILE && networkInfo
+                      .isConnected() ) {
 
                         dataNetworkConnect = true;
                   }
             }
 
-            if(wifiConnect) {
+            if( wifiConnect ) {
 
-                  if(dataNetworkConnect) {
+                  if( dataNetworkConnect ) {
 
-                        if(mNetStateChangeManager != null) {
-                              mNetStateChangeManager.onNetWorkStateChanged(
-                                  WIFI_MOBILE_CONNECT);
+                        if( mNetStateChangeManager != null ) {
+                              mNetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_CONNECT );
                         }
                   } else {
-                        if(mNetStateChangeManager != null) {
-                              mNetStateChangeManager
-                                  .onNetWorkStateChanged(ONLY_WIFI_CONNECT);
+                        if( mNetStateChangeManager != null ) {
+                              mNetStateChangeManager.onNetWorkStateChanged( ONLY_WIFI_CONNECT );
                         }
                   }
             } else {
-                  if(dataNetworkConnect) {
+                  if( dataNetworkConnect ) {
 
-                        if(mNetStateChangeManager != null) {
-                              mNetStateChangeManager.onNetWorkStateChanged(ONLY_MOBILE_CONNECT);
+                        if( mNetStateChangeManager != null ) {
+                              mNetStateChangeManager.onNetWorkStateChanged( ONLY_MOBILE_CONNECT );
                         }
                   } else {
-                        if(mNetStateChangeManager != null) {
+                        if( mNetStateChangeManager != null ) {
                               mNetStateChangeManager
-                                  .onNetWorkStateChanged(WIFI_MOBILE_DISCONNECT);
+                                  .onNetWorkStateChanged( WIFI_MOBILE_DISCONNECT );
                         }
                   }
             }
