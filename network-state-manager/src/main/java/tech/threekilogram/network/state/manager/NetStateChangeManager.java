@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -202,6 +203,11 @@ public class NetStateChangeManager {
        * 因为 {@link NetStateReceiver#onReceive(Context, Intent)}需要尽快结束,所以使用handler转发一下消息
        */
       private static class StateChangeHandler extends Handler {
+
+            StateChangeHandler ( ) {
+
+                  super( Looper.getMainLooper() );
+            }
 
             void sendStateChanged ( @NetStateValue int newState ) {
 

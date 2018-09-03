@@ -16,57 +16,57 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
       private static final String TAG = MainActivity.class.getSimpleName();
 
       @Override
-      protected void onCreate (Bundle savedInstanceState) {
+      protected void onCreate ( Bundle savedInstanceState ) {
 
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+            super.onCreate( savedInstanceState );
+            setContentView( R.layout.activity_main );
       }
 
       @Override
-      protected void onDestroy () {
+      protected void onDestroy ( ) {
 
             super.onDestroy();
       }
 
       @Override
-      public void onNetWorkStateChanged (int state) {
+      public void onNetWorkStateChanged ( int state ) {
 
-            Log.e(TAG, "onNetWorkStateChanged : " + state);
+            Log.e( TAG, "onNetWorkStateChanged : " + state );
       }
 
-      public void getCurrentState (View view) {
+      public void getCurrentState ( View view ) {
 
             NetStateChangeManager instance = NetStateChangeManager.getInstance();
             int currentNetState = instance.getCurrentNetState();
-            Log.e(TAG, "getCurrentState : " + currentNetState);
+            Log.e( TAG, "getCurrentState : " + currentNetState );
       }
 
-      public void isConnect (View view) {
+      public void isConnect ( View view ) {
 
-            boolean networkConnected = NetStateUtils.isNetworkConnected(this);
-            Log.e(TAG, "isConnect : network " + networkConnected);
+            boolean networkConnected = NetStateUtils.isNetworkConnected( this );
+            Log.e( TAG, "isConnect : network " + networkConnected );
 
-            boolean wifiConnected = NetStateUtils.isWifiConnected(this);
-            Log.e(TAG, "isConnect : wifi " + wifiConnected);
+            boolean wifiConnected = NetStateUtils.isWifiConnected( this );
+            Log.e( TAG, "isConnect : wifi " + wifiConnected );
 
-            boolean mobileConnected = NetStateUtils.isMobileConnected(this);
-            Log.e(TAG, "isConnect : mobile " + mobileConnected);
+            boolean mobileConnected = NetStateUtils.isMobileConnected( this );
+            Log.e( TAG, "isConnect : mobile " + mobileConnected );
       }
 
-      public void register (View view) {
+      public void register ( View view ) {
 
-            NetStateChangeManager.registerReceiver(this);
-            NetStateChangeManager.getInstance().addListener(this);
+            NetStateChangeManager.registerReceiver( MainActivity.this );
+            NetStateChangeManager.getInstance().addListener( MainActivity.this );
       }
 
-      public void unRegister (View view) {
+      public void unRegister ( View view ) {
 
-            NetStateChangeManager.unRegisterReceiver(this);
-            NetStateChangeManager.getInstance().removeListener(this);
+            NetStateChangeManager.unRegisterReceiver( this );
+            NetStateChangeManager.getInstance().removeListener( this );
       }
 
-      public void toMain2 (View view) {
+      public void toMain2 ( View view ) {
 
-            Main2Activity.start(this);
+            Main2Activity.start( this );
       }
 }
