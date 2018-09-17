@@ -11,9 +11,9 @@ package tech.threekilogram.network.state.manager;
 public interface OnNetStateChangedListener {
 
       /**
-       * wifi 连接状态改变的回调
+       * 网络连接状态改变的回调
        *
        * @param state one of {@link NetStateValue}
        */
-      void onNetWorkStateChanged (@NetStateValue int state);
+      void onNetWorkStateChanged ( @NetStateValue int state );
 }

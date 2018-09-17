@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
 
       public void getCurrentState ( View view ) {
 
-            NetStateChangeManager instance = NetStateChangeManager.getInstance();
-            int currentNetState = instance.getCurrentNetState();
+            int currentNetState = NetStateChangeManager.getCurrentNetState();
             Log.e( TAG, "getCurrentState : " + currentNetState );
       }
 
@@ -55,14 +54,14 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
 
       public void register ( View view ) {
 
+            NetStateChangeManager.addListener( MainActivity.this );
             NetStateChangeManager.registerReceiver( MainActivity.this );
-            NetStateChangeManager.getInstance().addListener( MainActivity.this );
       }
 
       public void unRegister ( View view ) {
 
             NetStateChangeManager.unRegisterReceiver( this );
-            NetStateChangeManager.getInstance().removeListener( this );
+            NetStateChangeManager.removeListener( this );
       }
 
       public void toMain2 ( View view ) {

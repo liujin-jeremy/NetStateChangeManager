@@ -34,21 +34,21 @@ public @interface NetStateValue {
       /**
        * {@link NetStateChangeManager}没有注册
        */
-      final int RECEIVER_UNREGISTER    = -1;
+      final int RECEIVER_UNREGISTER    = 0;
       /**
        * wifi mobile 都没有连接
        */
-      final int WIFI_MOBILE_DISCONNECT = 0;
+      final int WIFI_MOBILE_DISCONNECT = 1;
       /**
        * 只有mobile连接
        */
-      final int ONLY_MOBILE_CONNECT    = 1;
+      final int ONLY_MOBILE_CONNECT    = 2;
       /**
        * 只有wifi连接
        */
-      final int ONLY_WIFI_CONNECT      = 2;
+      final int ONLY_WIFI_CONNECT      = 3;
       /**
        * wifi mobile都连接了
        */
-      final int WIFI_MOBILE_CONNECT    = 3;
+      final int WIFI_MOBILE_CONNECT    = 4;
 }

@@ -19,7 +19,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```
 	dependencies {
-	        implementation 'com.github.threekilogram:NetWorkStateChangeListener:1.2.4'
+	        implementation 'com.github.threekilogram:NetWorkStateChangeListener:1.2.5'
 	}
 ```
 
@@ -39,39 +39,42 @@ NetStateChangeManager.registerReceiver(this);
 
 ```
 // 解注册receiver
-NetWorkStateChangeManager.unRegisterReceiver(context);
+NetStateChangeManager.unRegisterReceiver(context);
 ```
 
 2. 在需要响应网络变化的类中实现 OnNetWorkStateChangedListener 并添加给NetWorkStateChangeManager
 
 ```
-MainActivity extends AppCompatActivity implements OnNetWorkStateChangedListener
-```
+MainActivity extends AppCompatActivity implements OnNetWorkStateChangedListener{
 
-```
-@Override
-public void onNetWorkStateChanged (int state) {
-      Log.e(TAG, "onNetWorkStateChanged : " + state);
-      
-      // 当网络连接状态改变了做出响应动作
+		...
+
+		@Override
+        public void onNetWorkStateChanged (int state) {
+              // 当网络连接状态改变了做出响应动作
+        }
 }
 ```
 
-3. 或者只在需要的时候获取连接状态
+```
+// 添加监听
+NetStateChangeManager.addListener( MainActivity.this );
+// 移除监听
+NetStateChangeManager.removeListener( MainActivity.this );
+```
+
+### 获取连接状态
 
 ```
-NetWorkStateChangeManager instance = NetWorkStateChangeManager.getInstance();
-int currentNetState = instance.getCurrentNetState();
+int currentNetState = NetStateChangeManager.getCurrentNetState();
 
-//状态值为一下其一
+//状态值为以下其一
 int RECEIVER_UNREGISTER    = -1; --> 没有注测 receiver
 int WIFI_MOBILE_DISCONNECT = 0; --> 没有连接
 int ONLY_MOBILE_CONNECT    = 1; --> 只有手机数据连接
 int ONLY_WIFI_CONNECT      = 2; --> 只有wifi连接
 int WIFI_MOBILE_CONNECT    = 3; --> wifi 和 手机 全部处于连接状态
 ```
-
-
 
 ## NetWorkStateUtils
 

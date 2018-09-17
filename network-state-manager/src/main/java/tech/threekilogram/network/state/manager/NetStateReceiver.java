@@ -12,40 +12,29 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build.VERSION_CODES;
+import android.support.annotation.CallSuper;
 import android.support.annotation.RequiresApi;
 
 /**
- * 监听网络变化
+ * 监听网络变化,需要在maniFest中声明
  *
  * @author: Liujin
  * @version: V1.0
  * @date: 2018-07-23
  * @time: 18:04
  */
-
 public class NetStateReceiver extends BroadcastReceiver {
 
-      /**
-       * 和管理者关联
-       */
-      private NetStateChangeManager mNetStateChangeManager;
-
-      void setNetStateChangeManager (
-          NetStateChangeManager netStateChangeManager ) {
-
-            mNetStateChangeManager = netStateChangeManager;
-      }
-
+      @CallSuper
       @Override
       public void onReceive ( Context context, Intent intent ) {
 
-            //检测API是不是小于23，因为到了API23之后getNetworkInfo(int networkType)方法被弃用
-            if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP ) {
+            if( android.os.Build.VERSION.SDK_INT < VERSION_CODES.LOLLIPOP ) {
 
                   getNetWorkState( context );
             } else {
 
-                  getNetWorkStateApi23( context );
+                  getNetWorkStateApi21( context );
             }
       }
 
@@ -54,8 +43,7 @@ public class NetStateReceiver extends BroadcastReceiver {
        *
        * @param context context
        */
-      @SuppressWarnings("AliDeprecation")
-      private void getNetWorkState ( Context context ) {
+      protected void getNetWorkState ( Context context ) {
 
             //获得ConnectivityManager对象
             ConnectivityManager connMgr =
@@ -76,24 +64,15 @@ public class NetStateReceiver extends BroadcastReceiver {
 
             if( wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected() ) {
 
-                  if( mNetStateChangeManager != null ) {
-                        mNetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_CONNECT );
-                  }
+                  NetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_CONNECT );
             } else if( wifiNetworkInfo.isConnected() && !dataNetworkInfo.isConnected() ) {
 
-                  if( mNetStateChangeManager != null ) {
-                        mNetStateChangeManager.onNetWorkStateChanged( ONLY_WIFI_CONNECT );
-                  }
+                  NetStateChangeManager.onNetWorkStateChanged( ONLY_WIFI_CONNECT );
             } else if( !wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected() ) {
 
-                  if( mNetStateChangeManager != null ) {
-                        mNetStateChangeManager.onNetWorkStateChanged( ONLY_MOBILE_CONNECT );
-                  }
+                  NetStateChangeManager.onNetWorkStateChanged( ONLY_MOBILE_CONNECT );
             } else {
-
-                  if( mNetStateChangeManager != null ) {
-                        mNetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_DISCONNECT );
-                  }
+                  NetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_DISCONNECT );
             }
       }
 
@@ -103,7 +82,7 @@ public class NetStateReceiver extends BroadcastReceiver {
        * @param context context
        */
       @RequiresApi(api = VERSION_CODES.LOLLIPOP)
-      private void getNetWorkStateApi23 ( Context context ) {
+      protected void getNetWorkStateApi21 ( Context context ) {
 
             //API大于23时使用下面的方式进行网络监听
 
@@ -142,25 +121,18 @@ public class NetStateReceiver extends BroadcastReceiver {
 
                   if( dataNetworkConnect ) {
 
-                        if( mNetStateChangeManager != null ) {
-                              mNetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_CONNECT );
-                        }
+                        NetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_CONNECT );
                   } else {
-                        if( mNetStateChangeManager != null ) {
-                              mNetStateChangeManager.onNetWorkStateChanged( ONLY_WIFI_CONNECT );
-                        }
+
+                        NetStateChangeManager.onNetWorkStateChanged( ONLY_WIFI_CONNECT );
                   }
             } else {
                   if( dataNetworkConnect ) {
 
-                        if( mNetStateChangeManager != null ) {
-                              mNetStateChangeManager.onNetWorkStateChanged( ONLY_MOBILE_CONNECT );
-                        }
+                        NetStateChangeManager.onNetWorkStateChanged( ONLY_MOBILE_CONNECT );
                   } else {
-                        if( mNetStateChangeManager != null ) {
-                              mNetStateChangeManager
-                                  .onNetWorkStateChanged( WIFI_MOBILE_DISCONNECT );
-                        }
+
+                        NetStateChangeManager.onNetWorkStateChanged( WIFI_MOBILE_DISCONNECT );
                   }
             }
       }

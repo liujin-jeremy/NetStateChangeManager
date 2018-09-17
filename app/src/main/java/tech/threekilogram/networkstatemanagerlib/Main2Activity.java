@@ -31,14 +31,14 @@ public class Main2Activity extends AppCompatActivity implements OnNetStateChange
       protected void onResume () {
 
             super.onResume();
-            NetStateChangeManager.getInstance().addListener(this);
+            NetStateChangeManager.addListener( this );
       }
 
       @Override
       protected void onPause () {
 
             super.onPause();
-            NetStateChangeManager.getInstance().removeListener(this);
+            NetStateChangeManager.removeListener( this );
       }
 
       public void unRegister (View view) {

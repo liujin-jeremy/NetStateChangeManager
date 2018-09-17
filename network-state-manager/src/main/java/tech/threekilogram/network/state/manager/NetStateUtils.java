@@ -51,13 +51,13 @@ public class NetStateUtils {
        */
       public static boolean isWifiConnected ( Context context ) {
 
-            //检测API是不是小于23，因为到了API23之后getNetworkInfo(int networkType)方法被弃用
+            //检测API是不是小于21，因为到了Api21之后getNetworkInfo(int networkType)方法被弃用
             if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP ) {
 
                   return isWifiConnectedCommon( context );
             } else {
 
-                  return isWifiConnectedApi23( context );
+                  return isWifiConnectedApi21( context );
             }
       }
 
@@ -70,13 +70,13 @@ public class NetStateUtils {
        */
       public static boolean isMobileConnected ( Context context ) {
 
-            //检测API是不是小于23，因为到了API23之后getNetworkInfo(int networkType)方法被弃用
+            //检测API是不是小于21，因为到了Api21之后getNetworkInfo(int networkType)方法被弃用
             if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP ) {
 
                   return isMobileConnectedCommon( context );
             } else {
 
-                  return isMobileConnectedApi23( context );
+                  return isMobileConnectedApi21( context );
             }
       }
 
@@ -123,9 +123,9 @@ public class NetStateUtils {
        * @param context context
        */
       @RequiresApi(api = VERSION_CODES.LOLLIPOP)
-      private static boolean isWifiConnectedApi23 ( Context context ) {
+      private static boolean isWifiConnectedApi21 ( Context context ) {
 
-            //API大于23时使用下面的方式进行网络监听
+            //API大于21时使用下面的方式进行网络监听
 
             //获得ConnectivityManager对象
             ConnectivityManager connMgr =
@@ -160,9 +160,9 @@ public class NetStateUtils {
        * @param context context
        */
       @RequiresApi(api = VERSION_CODES.LOLLIPOP)
-      private static boolean isMobileConnectedApi23 ( Context context ) {
+      private static boolean isMobileConnectedApi21 ( Context context ) {
 
-            //API大于23时使用下面的方式进行网络监听
+            //API大于21时使用下面的方式进行网络监听
 
             //获得ConnectivityManager对象
             ConnectivityManager connMgr =

@@ -9,8 +9,7 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import android.support.v4.util.ArraySet;
 
 /**
  * 为 app 监听网络状态变化并且通知注册的观察者
@@ -26,26 +25,22 @@ public class NetStateChangeManager {
        * 当前网络状态
        */
       @NetStateValue
-      private int mCurrentNetState = RECEIVER_UNREGISTER;
+      private static int sCurrentNetState = RECEIVER_UNREGISTER;
 
       /**
        * 注册的网络变化监听
        */
-      private ArrayList<WeakReference<OnNetStateChangedListener>> mListeners = new ArrayList<>();
+      private static ArraySet<OnNetStateChangedListener> sListeners = new ArraySet<>();
 
       /**
        * 辅助转发消息到主线程
        */
-      private StateChangeHandler mStateChangeHandler = new StateChangeHandler();
+      private static StateChangeHandler sStateChangeHandler = new StateChangeHandler();
+
       /**
        * 监听系统网络变化的receiver
        */
-      private NetStateReceiver mNetStateReceiver;
-
-      /**
-       * single ton
-       */
-      private NetStateChangeManager ( ) { }
+      private static NetStateReceiver sNetStateReceiver;
 
       /**
        * 注册一个网络变化的receiver,和 app 生命周期绑定,当不需要监听网络变化时解除注册{@link #unRegisterReceiver(Context)}
@@ -55,52 +50,50 @@ public class NetStateChangeManager {
       public static void registerReceiver ( Context context ) {
 
             /* 如果没有注册过 receiver 注册一个新的 */
-
-            NetStateReceiver netStateReceiver =
-                NetStateChangeManager.getInstance().mNetStateReceiver;
-
-            if( netStateReceiver == null ) {
-
-                  /* 注册 */
-
-                  NetStateReceiver receiver = new NetStateReceiver();
-                  receiver.setNetStateChangeManager( NetStateChangeManager.getInstance() );
-                  NetStateChangeManager.getInstance().mNetStateReceiver = receiver;
+            if( sNetStateReceiver == null ) {
+                  sNetStateReceiver = new NetStateReceiver();
 
                   IntentFilter filter = new IntentFilter();
                   filter.addAction( ConnectivityManager.CONNECTIVITY_ACTION );
-                  context.getApplicationContext().registerReceiver( receiver, filter );
+                  context.getApplicationContext().registerReceiver( sNetStateReceiver, filter );
+            }
+      }
+
+      /**
+       * 注册一个网络变化的receiver,和 app 生命周期绑定,当不需要监听网络变化时解除注册{@link #unRegisterReceiver(Context)}
+       *
+       * @param context context
+       */
+      public static void registerReceiver ( Context context, NetStateReceiver receiver ) {
+
+            /* 如果没有注册过 receiver 注册一个新的 */
+            if( sNetStateReceiver == null ) {
+                  sNetStateReceiver = receiver;
+
+                  IntentFilter filter = new IntentFilter();
+                  filter.addAction( ConnectivityManager.CONNECTIVITY_ACTION );
+                  context.getApplicationContext().registerReceiver( sNetStateReceiver, filter );
+            } else {
+
+                  unRegisterReceiver( context );
+                  registerReceiver( context, receiver );
             }
       }
 
       /**
        * 解除已经注册的receiver,
-       * 并不会清空{@link NetStateChangeManager#mListeners},需要自己{@link
+       * 并不会清空{@link NetStateChangeManager#sListeners},需要自己{@link
        * NetStateChangeManager#removeListener(OnNetStateChangedListener)}
        *
        * @param context context
        */
       public static void unRegisterReceiver ( Context context ) {
 
-            NetStateReceiver netStateReceiver =
-                NetStateChangeManager.getInstance().mNetStateReceiver;
-
-            if( netStateReceiver != null ) {
-
-                  context.getApplicationContext().unregisterReceiver( netStateReceiver );
-                  NetStateChangeManager.getInstance().mNetStateReceiver = null;
-                  NetStateChangeManager.getInstance().mCurrentNetState = RECEIVER_UNREGISTER;
+            if( sNetStateReceiver != null ) {
+                  sCurrentNetState = NetStateValue.RECEIVER_UNREGISTER;
+                  context.getApplicationContext().unregisterReceiver( sNetStateReceiver );
+                  sNetStateReceiver = null;
             }
-      }
-
-      /**
-       * 获取单一实例
-       *
-       * @return 单实例
-       */
-      public static NetStateChangeManager getInstance ( ) {
-
-            return SingletonHolder.INSTANCE;
       }
 
       /**
@@ -109,9 +102,9 @@ public class NetStateChangeManager {
        * @return one of {@link NetStateValue}
        */
       @NetStateValue
-      public int getCurrentNetState ( ) {
+      public static int getCurrentNetState ( ) {
 
-            return mCurrentNetState;
+            return sCurrentNetState;
       }
 
       /**
@@ -121,10 +114,10 @@ public class NetStateChangeManager {
        * @param state one of {@link NetStateValue}
        */
 
-      void onNetWorkStateChanged ( int state ) {
+      static void onNetWorkStateChanged ( int state ) {
 
-            mCurrentNetState = state;
-            mStateChangeHandler.sendStateChanged( state );
+            sCurrentNetState = state;
+            sStateChangeHandler.sendStateChanged( state );
       }
 
       /**
@@ -132,22 +125,15 @@ public class NetStateChangeManager {
        *
        * @param listener 新添加的listener
        */
-      public void addListener ( OnNetStateChangedListener listener ) {
+      public static void addListener ( OnNetStateChangedListener listener ) {
 
             if( listener != null ) {
-                  for( WeakReference<OnNetStateChangedListener> reference : mListeners ) {
 
-                        if( reference.get() == null ) {
-                              mListeners.remove( reference );
-                              continue;
-                        }
+                  sListeners.add( listener );
 
-                        if( reference.get() == listener ) {
-                              return;
-                        }
+                  if( sCurrentNetState != NetStateValue.RECEIVER_UNREGISTER ) {
+                        listener.onNetWorkStateChanged( sCurrentNetState );
                   }
-                  mListeners.add( new WeakReference<>( listener ) );
-                  listener.onNetWorkStateChanged( getCurrentNetState() );
             }
       }
 
@@ -156,22 +142,19 @@ public class NetStateChangeManager {
        *
        * @param listener 之前设置的监听
        */
-      public void removeListener ( OnNetStateChangedListener listener ) {
+      public static void removeListener ( OnNetStateChangedListener listener ) {
 
             if( listener != null ) {
-                  for( WeakReference<OnNetStateChangedListener> reference : mListeners ) {
-
-                        if( reference.get() == null ) {
-                              mListeners.remove( reference );
-                              continue;
-                        }
-
-                        if( reference.get() == listener ) {
-                              mListeners.remove( reference );
-                              return;
-                        }
-                  }
+                  sListeners.remove( listener );
             }
+      }
+
+      /**
+       * 移除所有监听
+       */
+      public static void clearListener ( ) {
+
+            sListeners.clear();
       }
 
       /**
@@ -179,25 +162,12 @@ public class NetStateChangeManager {
        *
        * @param state 新网络状态
        */
-      void notifySateChanged ( @NetStateValue int state ) {
+      private static void notifySateChanged ( @NetStateValue int state ) {
 
-            for( WeakReference<OnNetStateChangedListener> reference : mListeners ) {
-
-                  if( reference.get() == null ) {
-                        mListeners.remove( reference );
-                        continue;
-                  }
-
-                  reference.get().onNetWorkStateChanged( state );
+            for( OnNetStateChangedListener listener : sListeners ) {
+                  listener.onNetWorkStateChanged( state );
             }
       }
-
-      private static class SingletonHolder {
-
-            private static final NetStateChangeManager INSTANCE = new NetStateChangeManager();
-      }
-
-      // ========================= 内部类 =========================
 
       /**
        * 因为 {@link NetStateReceiver#onReceive(Context, Intent)}需要尽快结束,所以使用handler转发一下消息
@@ -217,7 +187,7 @@ public class NetStateChangeManager {
             @Override
             public void handleMessage ( Message msg ) {
 
-                  NetStateChangeManager.getInstance().notifySateChanged( msg.what );
+                  NetStateChangeManager.notifySateChanged( msg.what );
             }
       }
 }
