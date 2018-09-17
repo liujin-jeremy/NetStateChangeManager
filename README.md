@@ -45,14 +45,13 @@ NetStateChangeManager.unRegisterReceiver(context);
 2. 在需要响应网络变化的类中实现 OnNetWorkStateChangedListener 并添加给NetWorkStateChangeManager
 
 ```
-MainActivity extends AppCompatActivity implements OnNetWorkStateChangedListener{
+public class MainActivity extends AppCompatActivity implements OnNetStateChangedListener {
 
-		...
+      @Override
+      public void onNetWorkStateChanged ( int state ) {
 
-		@Override
-        public void onNetWorkStateChanged (int state) {
-              // 当网络连接状态改变了做出响应动作
-        }
+            // do something
+      }
 }
 ```
 

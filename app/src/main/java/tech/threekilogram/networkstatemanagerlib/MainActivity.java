@@ -16,6 +16,12 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
       private static final String TAG = MainActivity.class.getSimpleName();
 
       @Override
+      public void onNetWorkStateChanged ( int state ) {
+
+            Log.e( TAG, "onNetWorkStateChanged : " + state );
+      }
+
+      @Override
       protected void onCreate ( Bundle savedInstanceState ) {
 
             super.onCreate( savedInstanceState );
@@ -26,12 +32,6 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
       protected void onDestroy ( ) {
 
             super.onDestroy();
-      }
-
-      @Override
-      public void onNetWorkStateChanged ( int state ) {
-
-            Log.e( TAG, "onNetWorkStateChanged : " + state );
       }
 
       public void getCurrentState ( View view ) {
