@@ -6,9 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v4.util.ArraySet;
 
 /**
@@ -31,11 +28,6 @@ public class NetStateChangeManager {
        * 注册的网络变化监听
        */
       private static ArraySet<OnNetStateChangedListener> sListeners = new ArraySet<>();
-
-      /**
-       * 辅助转发消息到主线程
-       */
-      private static StateChangeHandler sStateChangeHandler = new StateChangeHandler();
 
       /**
        * 监听系统网络变化的receiver
@@ -117,7 +109,7 @@ public class NetStateChangeManager {
       static void onNetWorkStateChanged ( int state ) {
 
             sCurrentNetState = state;
-            sStateChangeHandler.sendStateChanged( state );
+            notifySateChanged( state );
       }
 
       /**
@@ -166,28 +158,6 @@ public class NetStateChangeManager {
 
             for( OnNetStateChangedListener listener : sListeners ) {
                   listener.onNetWorkStateChanged( state );
-            }
-      }
-
-      /**
-       * 因为 {@link NetStateReceiver#onReceive(Context, Intent)}需要尽快结束,所以使用handler转发一下消息
-       */
-      private static class StateChangeHandler extends Handler {
-
-            StateChangeHandler ( ) {
-
-                  super( Looper.getMainLooper() );
-            }
-
-            void sendStateChanged ( @NetStateValue int newState ) {
-
-                  sendEmptyMessage( newState );
-            }
-
-            @Override
-            public void handleMessage ( Message msg ) {
-
-                  NetStateChangeManager.notifySateChanged( msg.what );
             }
       }
 }
