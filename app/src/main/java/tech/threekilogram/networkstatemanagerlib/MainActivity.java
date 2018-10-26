@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 import tech.threekilogram.network.state.manager.NetStateChangeManager;
 import tech.threekilogram.network.state.manager.NetStateUtils;
 import tech.threekilogram.network.state.manager.OnNetStateChangedListener;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
       public void onNetWorkStateChanged ( int state ) {
 
             Log.e( TAG, "onNetWorkStateChanged : " + state );
+            Toast.makeText( this, getStateString( state ), Toast.LENGTH_SHORT ).show();
       }
 
       @Override
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
 
             int currentNetState = NetStateChangeManager.getCurrentNetState();
             Log.e( TAG, "getCurrentState : " + currentNetState );
+            Toast.makeText( this, getStateString( currentNetState ), Toast.LENGTH_SHORT ).show();
       }
 
       public void isConnect ( View view ) {
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
 
             boolean mobileConnected = NetStateUtils.isMobileConnected( this );
             Log.e( TAG, "isConnect : mobile " + mobileConnected );
+
+            Toast.makeText( this, String.valueOf( networkConnected ), Toast.LENGTH_SHORT ).show();
       }
 
       public void register ( View view ) {
@@ -67,5 +72,46 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
       public void toMain2 ( View view ) {
 
             Main2Activity.start( this );
+      }
+
+      private String getStateString ( int state ) {
+//            /**
+//             * {@link NetStateChangeManager}没有注册
+//             */
+//            final int RECEIVER_UNREGISTER    = 0;
+//            /**
+//             * wifi mobile 都没有连接
+//             */
+//            final int WIFI_MOBILE_DISCONNECT = 1;
+//            /**
+//             * 只有mobile连接
+//             */
+//            final int ONLY_MOBILE_CONNECT    = 2;
+//            /**
+//             * 只有wifi连接
+//             */
+//            final int ONLY_WIFI_CONNECT      = 3;
+//            /**
+//             * wifi mobile都连接了
+//             */
+//            final int WIFI_MOBILE_CONNECT    = 4;
+
+            if( state == 0 ) {
+                  return "未注册";
+            }
+            if( state == 1 ) {
+                  return "没有连接";
+            }
+            if( state == 2 ) {
+                  return "手机连接";
+            }
+            if( state == 3 ) {
+                  return "wifi连接";
+            }
+            if( state == 4 ) {
+                  return "都连接";
+            }
+
+            return null;
       }
 }
