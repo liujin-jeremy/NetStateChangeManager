@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
                   ONLY_MOBILE_CONNECT,
                   WIFI_MOBILE_CONNECT,
                   RECEIVER_UNREGISTER })
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Inherited
 @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 public @interface NetStateValue {

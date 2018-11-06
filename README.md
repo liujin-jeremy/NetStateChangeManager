@@ -1,26 +1,7 @@
 # 监听网络变化库
 
-## 引入
-
-**Step 1.** Add the JitPack repository to your build file
-
-Add it in your root build.gradle at the end of repositories:
-
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-
-**Step 2.** Add the dependency
-
-```
-	dependencies {
-	        implementation 'com.github.threekilogram:NetStateChangeManager:1.2.6'
-	}
+implementation 'tech.threekilogram:network-state-manager:2.0.1'
 ```
 
 ## NetStateChangeManager
