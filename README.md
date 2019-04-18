@@ -1,7 +1,7 @@
 # 监听网络变化库
 
 ```
-implementation 'tech.threekilogram:network-state-manager:2.0.1'
+implementation 'tech.liujin:network-state-manager:1.0.0'
 ```
 
 ## NetStateChangeManager

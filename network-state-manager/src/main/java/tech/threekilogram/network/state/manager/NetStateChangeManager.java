@@ -35,16 +35,15 @@ public class NetStateChangeManager {
       private static NetStateReceiver sNetStateReceiver;
 
       /**
-       * 注册一个网络变化的receiver,和 app 生命周期绑定,当不需要监听网络变化时解除注册{@link #unRegisterReceiver(Context)}
+       * 注册一个网络变化的receiver,和 app 生命周期绑定,当不需要监听网络变化时解除注册{@link #destroy(Context)}
        *
        * @param context context
        */
-      public static void registerReceiver ( Context context ) {
+      public static void create ( Context context ) {
 
             /* 如果没有注册过 receiver 注册一个新的 */
             if( sNetStateReceiver == null ) {
                   sNetStateReceiver = new NetStateReceiver();
-
                   IntentFilter filter = new IntentFilter();
                   filter.addAction( ConnectivityManager.CONNECTIVITY_ACTION );
                   context.getApplicationContext().registerReceiver( sNetStateReceiver, filter );
@@ -52,11 +51,11 @@ public class NetStateChangeManager {
       }
 
       /**
-       * 注册一个网络变化的receiver,和 app 生命周期绑定,当不需要监听网络变化时解除注册{@link #unRegisterReceiver(Context)}
+       * 注册一个网络变化的receiver,和 app 生命周期绑定,当不需要监听网络变化时解除注册{@link #destroy(Context)}
        *
        * @param context context
        */
-      public static void registerReceiver ( Context context, NetStateReceiver receiver ) {
+      public static void create ( Context context, NetStateReceiver receiver ) {
 
             /* 如果没有注册过 receiver 注册一个新的 */
             if( sNetStateReceiver == null ) {
@@ -67,8 +66,10 @@ public class NetStateChangeManager {
                   context.getApplicationContext().registerReceiver( sNetStateReceiver, filter );
             } else {
 
-                  unRegisterReceiver( context );
-                  registerReceiver( context, receiver );
+                  if( sNetStateReceiver != receiver ) {
+                        destroy( context );
+                        create( context, receiver );
+                  }
             }
       }
 
@@ -79,7 +80,7 @@ public class NetStateChangeManager {
        *
        * @param context context
        */
-      public static void unRegisterReceiver ( Context context ) {
+      public static void destroy ( Context context ) {
 
             if( sNetStateReceiver != null ) {
                   sCurrentNetState = NetStateValue.RECEIVER_UNREGISTER;
@@ -121,8 +122,11 @@ public class NetStateChangeManager {
 
             if( listener != null ) {
 
-                  sListeners.add( listener );
+                  if( sListeners.contains( listener ) ) {
+                        return;
+                  }
 
+                  sListeners.add( listener );
                   if( sCurrentNetState != NetStateValue.RECEIVER_UNREGISTER ) {
                         listener.onNetWorkStateChanged( sCurrentNetState );
                   }

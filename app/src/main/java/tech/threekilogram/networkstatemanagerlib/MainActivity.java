@@ -60,12 +60,12 @@ public class MainActivity extends AppCompatActivity implements OnNetStateChanged
       public void register ( View view ) {
 
             NetStateChangeManager.addListener( MainActivity.this );
-            NetStateChangeManager.registerReceiver( MainActivity.this );
+            NetStateChangeManager.create( MainActivity.this );
       }
 
       public void unRegister ( View view ) {
 
-            NetStateChangeManager.unRegisterReceiver( this );
+            NetStateChangeManager.destroy( this );
             NetStateChangeManager.removeListener( this );
       }
 

@@ -43,7 +43,7 @@ public class Main2Activity extends AppCompatActivity implements OnNetStateChange
 
       public void unRegister (View view) {
 
-            NetStateChangeManager.unRegisterReceiver(this);
+            NetStateChangeManager.destroy( this );
       }
 
       @Override
