@@ -9,11 +9,6 @@ implementation 'tech.liujin:network-state-manager:1.0.0'
 1. 注册一个监听网络变化的BroadCastReceiver
 
 ```
-<receiver android:name="tech.threekilogram.network.state.manager.NetStateReceiver">
-</receiver>
-```
-
-```
 // 注册receiver
 NetStateChangeManager.registerReceiver(this);
 ```
