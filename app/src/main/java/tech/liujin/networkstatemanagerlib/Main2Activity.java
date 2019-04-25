@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-import tech.liujin.network.state.manager.NetStateChangeManager;
-import tech.liujin.network.state.manager.OnNetStateChangedListener;
+import tech.liujin.manager.NetStateChangeManager;
+import tech.liujin.manager.OnNetStateChangedListener;
 
 /**
  * @author liujin
