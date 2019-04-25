@@ -202,8 +202,8 @@ public class NetStateChangeManager {
                         ONLY_MOBILE_CONNECT,
                         WIFI_MOBILE_CONNECT,
                         RECEIVER_UNREGISTER })
-      @Retention(RetentionPolicy.SOURCE)
+      @Retention(RetentionPolicy.RUNTIME)
       @Inherited
       @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
-      public @interface NetStateValue { }
+      public static @interface NetStateValue { }
 }
