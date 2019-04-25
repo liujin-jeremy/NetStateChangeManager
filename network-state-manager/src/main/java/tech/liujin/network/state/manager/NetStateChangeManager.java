@@ -1,12 +1,22 @@
 package tech.liujin.network.state.manager;
 
-import static tech.liujin.network.state.manager.NetStateValue.RECEIVER_UNREGISTER;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.ONLY_MOBILE_CONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.ONLY_WIFI_CONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.RECEIVER_UNREGISTER;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.WIFI_MOBILE_CONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.WIFI_MOBILE_DISCONNECT;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.support.annotation.IntDef;
 import android.support.v4.util.ArraySet;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 为 app 监听网络状态变化并且通知注册的观察者
@@ -83,7 +93,7 @@ public class NetStateChangeManager {
       public static void destroy ( Context context ) {
 
             if( sNetStateReceiver != null ) {
-                  sCurrentNetState = NetStateValue.RECEIVER_UNREGISTER;
+                  sCurrentNetState = RECEIVER_UNREGISTER;
                   context.getApplicationContext().unregisterReceiver( sNetStateReceiver );
                   sNetStateReceiver = null;
             }
@@ -127,7 +137,7 @@ public class NetStateChangeManager {
                   }
 
                   sListeners.add( listener );
-                  if( sCurrentNetState != NetStateValue.RECEIVER_UNREGISTER ) {
+                  if( sCurrentNetState != RECEIVER_UNREGISTER ) {
                         listener.onNetWorkStateChanged( sCurrentNetState );
                   }
             }
@@ -164,4 +174,45 @@ public class NetStateChangeManager {
                   listener.onNetWorkStateChanged( state );
             }
       }
+
+      /**
+       * 网络状态值
+       *
+       * @author: Liujin
+       * @version: V1.0
+       * @date: 2018-07-25
+       * @time: 9:53
+       */
+      @IntDef(value = { WIFI_MOBILE_DISCONNECT,
+                        ONLY_WIFI_CONNECT,
+                        ONLY_MOBILE_CONNECT,
+                        WIFI_MOBILE_CONNECT,
+                        RECEIVER_UNREGISTER })
+      @Retention(RetentionPolicy.SOURCE)
+      @Inherited
+      @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
+      public @interface NetStateValue {
+
+            /**
+             * {@link NetStateChangeManager}没有注册
+             */
+            final int RECEIVER_UNREGISTER    = 0;
+            /**
+             * wifi mobile 都没有连接
+             */
+            final int WIFI_MOBILE_DISCONNECT = 1;
+            /**
+             * 只有mobile连接
+             */
+            final int ONLY_MOBILE_CONNECT    = 2;
+            /**
+             * 只有wifi连接
+             */
+            final int ONLY_WIFI_CONNECT      = 3;
+            /**
+             * wifi mobile都连接了
+             */
+            final int WIFI_MOBILE_CONNECT    = 4;
+      }
+
 }

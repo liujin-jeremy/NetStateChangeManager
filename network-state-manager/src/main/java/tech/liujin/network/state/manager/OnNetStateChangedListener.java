@@ -1,5 +1,7 @@
 package tech.liujin.network.state.manager;
 
+import tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue;
+
 /**
  * 监听网络状态的回调
  *

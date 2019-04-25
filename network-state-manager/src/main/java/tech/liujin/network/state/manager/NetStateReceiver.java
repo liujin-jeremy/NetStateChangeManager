@@ -1,9 +1,9 @@
 package tech.liujin.network.state.manager;
 
-import static tech.liujin.network.state.manager.NetStateValue.ONLY_MOBILE_CONNECT;
-import static tech.liujin.network.state.manager.NetStateValue.ONLY_WIFI_CONNECT;
-import static tech.liujin.network.state.manager.NetStateValue.WIFI_MOBILE_CONNECT;
-import static tech.liujin.network.state.manager.NetStateValue.WIFI_MOBILE_DISCONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.ONLY_MOBILE_CONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.ONLY_WIFI_CONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.WIFI_MOBILE_CONNECT;
+import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.WIFI_MOBILE_DISCONNECT;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
