@@ -1,11 +1,5 @@
 package tech.liujin.network.state.manager;
 
-import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.ONLY_MOBILE_CONNECT;
-import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.ONLY_WIFI_CONNECT;
-import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.RECEIVER_UNREGISTER;
-import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.WIFI_MOBILE_CONNECT;
-import static tech.liujin.network.state.manager.NetStateChangeManager.NetStateValue.WIFI_MOBILE_DISCONNECT;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -29,10 +23,30 @@ import java.lang.annotation.Target;
 public class NetStateChangeManager {
 
       /**
+       * {@link NetStateChangeManager}没有注册
+       */
+      public static final int RECEIVER_UNREGISTER    = 0;
+      /**
+       * wifi mobile 都没有连接
+       */
+      public static final int WIFI_MOBILE_DISCONNECT = 1;
+      /**
+       * 只有mobile连接
+       */
+      public static final int ONLY_MOBILE_CONNECT    = 2;
+      /**
+       * 只有wifi连接
+       */
+      public static final int ONLY_WIFI_CONNECT      = 3;
+      /**
+       * wifi mobile都连接了
+       */
+      public static final int WIFI_MOBILE_CONNECT    = 4;
+      /**
        * 当前网络状态
        */
       @NetStateValue
-      private static int sCurrentNetState = RECEIVER_UNREGISTER;
+      private static      int sCurrentNetState       = RECEIVER_UNREGISTER;
 
       /**
        * 注册的网络变化监听
@@ -191,28 +205,5 @@ public class NetStateChangeManager {
       @Retention(RetentionPolicy.SOURCE)
       @Inherited
       @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
-      public @interface NetStateValue {
-
-            /**
-             * {@link NetStateChangeManager}没有注册
-             */
-            final int RECEIVER_UNREGISTER    = 0;
-            /**
-             * wifi mobile 都没有连接
-             */
-            final int WIFI_MOBILE_DISCONNECT = 1;
-            /**
-             * 只有mobile连接
-             */
-            final int ONLY_MOBILE_CONNECT    = 2;
-            /**
-             * 只有wifi连接
-             */
-            final int ONLY_WIFI_CONNECT      = 3;
-            /**
-             * wifi mobile都连接了
-             */
-            final int WIFI_MOBILE_CONNECT    = 4;
-      }
-
+      public @interface NetStateValue { }
 }
