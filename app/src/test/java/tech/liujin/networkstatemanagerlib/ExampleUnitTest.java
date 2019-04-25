@@ -1,4 +1,4 @@
-package tech.threekilogram.network_state_manager;
+package tech.liujin.networkstatemanagerlib;
 
 import org.junit.Test;
 

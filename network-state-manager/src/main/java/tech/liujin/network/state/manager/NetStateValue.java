@@ -1,10 +1,10 @@
-package tech.threekilogram.network.state.manager;
+package tech.liujin.network.state.manager;
 
-import static tech.threekilogram.network.state.manager.NetStateValue.ONLY_MOBILE_CONNECT;
-import static tech.threekilogram.network.state.manager.NetStateValue.ONLY_WIFI_CONNECT;
-import static tech.threekilogram.network.state.manager.NetStateValue.RECEIVER_UNREGISTER;
-import static tech.threekilogram.network.state.manager.NetStateValue.WIFI_MOBILE_CONNECT;
-import static tech.threekilogram.network.state.manager.NetStateValue.WIFI_MOBILE_DISCONNECT;
+import static tech.liujin.network.state.manager.NetStateValue.ONLY_MOBILE_CONNECT;
+import static tech.liujin.network.state.manager.NetStateValue.ONLY_WIFI_CONNECT;
+import static tech.liujin.network.state.manager.NetStateValue.RECEIVER_UNREGISTER;
+import static tech.liujin.network.state.manager.NetStateValue.WIFI_MOBILE_CONNECT;
+import static tech.liujin.network.state.manager.NetStateValue.WIFI_MOBILE_DISCONNECT;
 
 import android.support.annotation.IntDef;
 import java.lang.annotation.ElementType;

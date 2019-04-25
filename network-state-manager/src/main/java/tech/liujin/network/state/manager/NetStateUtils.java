@@ -1,4 +1,4 @@
-package tech.threekilogram.network.state.manager;
+package tech.liujin.network.state.manager;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

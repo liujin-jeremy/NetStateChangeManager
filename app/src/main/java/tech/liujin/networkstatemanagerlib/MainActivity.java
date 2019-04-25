@@ -1,13 +1,13 @@
-package tech.threekilogram.networkstatemanagerlib;
+package tech.liujin.networkstatemanagerlib;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import tech.threekilogram.network.state.manager.NetStateChangeManager;
-import tech.threekilogram.network.state.manager.NetStateUtils;
-import tech.threekilogram.network.state.manager.OnNetStateChangedListener;
+import tech.liujin.network.state.manager.NetStateChangeManager;
+import tech.liujin.network.state.manager.NetStateUtils;
+import tech.liujin.network.state.manager.OnNetStateChangedListener;
 
 /**
  * @author liujin

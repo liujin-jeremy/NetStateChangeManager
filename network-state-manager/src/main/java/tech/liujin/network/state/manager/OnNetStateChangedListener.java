@@ -1,4 +1,4 @@
-package tech.threekilogram.network.state.manager;
+package tech.liujin.network.state.manager;
 
 /**
  * 监听网络状态的回调

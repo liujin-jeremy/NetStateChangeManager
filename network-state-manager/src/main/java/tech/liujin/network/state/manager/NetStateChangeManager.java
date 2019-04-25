@@ -1,6 +1,6 @@
-package tech.threekilogram.network.state.manager;
+package tech.liujin.network.state.manager;
 
-import static tech.threekilogram.network.state.manager.NetStateValue.RECEIVER_UNREGISTER;
+import static tech.liujin.network.state.manager.NetStateValue.RECEIVER_UNREGISTER;
 
 import android.content.Context;
 import android.content.Intent;
